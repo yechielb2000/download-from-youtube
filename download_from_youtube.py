@@ -22,7 +22,7 @@ def main():
     label = Label(root, text="Enter youtube link :", foreground='black', background='#856ff8', font=BOLD)
     label.grid(row=0,column=0,  padx=10, pady=20)
    
-    button = Button(root, text="submit", background='#856ff8', foreground='black', font=BOLD, command=lambda:thread(entry.get(), 'C:/Users/{}/Downloads'.format(getpass.getuser())))
+    button = Button(root, text="Download", background='#856ff8', foreground='black', font=BOLD, command=lambda:thread(entry.get(), 'C:/Users/{}/Downloads'.format(getpass.getuser())))
     button.grid(row=0, column=3, padx=10, pady=20)
 
     root.mainloop()
