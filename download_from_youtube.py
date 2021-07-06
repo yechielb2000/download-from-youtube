@@ -6,19 +6,12 @@ import threading
 import getpass
 
 selection = ['Highest quality', 'Regular quality', 'Lowest quality']
-
 row0 = 0; row1 = 1; row2 = 2
 
 root = Tk()
 
-entry = Entry(root, font=BOLD)
-entry.grid(row=row2, column=1, padx=10, pady=20)
-
 optionVar = StringVar()
 optionVar.set(selection[1])
-options = OptionMenu(root, optionVar, *selection)
-options.config(font=BOLD, background='#856ff8', width=12)
-options.grid(row=row1,column=0)
 
 update_label = Label(root, foreground='black', background='#856ff8', font=BOLD)
 update_label.grid(row=1,column=1)  
@@ -28,12 +21,19 @@ def main():
     root.resizable(False, False)
     root.title('Download from youtube')
     root.configure(background='#856ff8')
-
+    
     highlight = Label(root, text="Download from Youtube!", foreground='black', background='#856ff8', font=BOLD)
     highlight.grid(row=row0,column=1,  padx=10, pady=20)
 
+    options = OptionMenu(root, optionVar, *selection)
+    options.config(font=BOLD, background='#856ff8', width=12)
+    options.grid(row=row1,column=0)
+
     label = Label(root, text="Enter youtube link :", foreground='black', background='#856ff8', font=BOLD)
     label.grid(row=row2,column=0,  padx=10, pady=20)
+
+    entry = Entry(root, font=BOLD)
+    entry.grid(row=row2, column=1, padx=10, pady=20)
 
     button = Button(root, text="Download", background='#856ff8', foreground='black', font=BOLD, command=lambda:thread(entry.get(), 'C:/Users/{}/Downloads'.format(getpass.getuser())))
     button.grid(row=row2, column=3, padx=10, pady=20)
@@ -61,7 +61,6 @@ def downloadYouTube(videourl, path):
         update_label.configure(text='download successfully!')
     except:
         update_label.configure(text='download failed!')
-
 
 def selectResolution(yt):
     if(optionVar.get() == selection[0]):
