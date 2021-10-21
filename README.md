@@ -1,11 +1,9 @@
 # download from youtube
 
-You can download the application in the App folder
+#### You can download the application in the App folder
 
-Get the link of the video you want to download and copy it to the app
+#### Get the link of the video you want to download and copy it to the app
 
-It will download it into your downloads directory
-
-You also can choose your video quality
+#### It will download it into your downloads directory
 
 Credits: Yechiel babani, Avi Cohen 
