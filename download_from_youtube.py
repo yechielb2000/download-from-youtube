@@ -1,14 +1,15 @@
-from pytube import YouTube
-from tkinter.font import BOLD
-from tkinter import *
 import os
 import threading
 import getpass
+
+from pytube import YouTube
+from tkinter.font import BOLD
+from tkinter import *
 from consts import *
-from utils import *
+from utils import create_label
 
 
-root = Tk()
+root = Tk() 
 
 entry = Entry(root, font=BOLD)
 entry.grid(row=row2, column=1, padx=PADDING_X, pady=PADDING_Y)
@@ -40,31 +41,31 @@ def main():
 
 def thread(videourl, path):
     update_label.configure(text='downloading..')
-    downloading_thread = threading.Thread(target=downloadYouTube, args=(videourl, path))
+    downloading_thread = threading.Thread(target=download_youtube_video, args=(videourl, path))
     downloading_thread.start()
 
-def downloadYouTube(videourl, path):
+def download_youtube_video(video_url, path):
     try:
-        yt = YouTube(videourl)
-        yt = yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc()
-        
-        yt = selectResolution(yt)
-       
+        youtube = YouTube(video_url)
+		
+        youtube = youtube.streams.filter(progressive=True, file_extension='mp4')
+        print(youtube)
+        youtube = selectResolution(youtube)
         if not os.path.exists(path):
             os.makedirs(path)
-        yt.download(path)
+        youtube.download(path)
         update_label.configure(text='download successfully!')
-    except:
-        update_label.configure(text='download failed!')
+    except Exception as e:
+        update_label.configure(text=f'download failed!\n{e}')
 
 
-def selectResolution(yt):
+def selectResolution(youtube):
     if(optionVar.get() == SELECTION[0]):
-        return yt.get_highest_resolution()
+        return youtube.get_highest_resolution()
     elif(optionVar.get() == SELECTION[1]):
-        return yt.get_by_resolution()
+        return youtube.get_by_resolution()
     else:
-       return yt.get_lowest_resolution()       
+       return youtube.get_lowest_resolution()       
 
 if __name__ == '__main__':
     main()
