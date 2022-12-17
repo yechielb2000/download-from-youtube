@@ -4,16 +4,14 @@ from tkinter import *
 import os
 import threading
 import getpass
+from consts import *
+from utils import *
 
-SELECTION = ['Highest quality', 'Regular quality', 'Lowest quality']
-row0 = 0; row1 = 1; row2 = 2
-YELLOW_COLOR = '#f5e149'
-BLACK_COLOR = 'black'
 
 root = Tk()
 
 entry = Entry(root, font=BOLD)
-entry.grid(row=row2, column=1, padx=10, pady=20)
+entry.grid(row=row2, column=1, padx=PADDING_X, pady=PADDING_Y)
 
 optionVar = StringVar()
 optionVar.set(SELECTION[1])
@@ -21,7 +19,7 @@ options = OptionMenu(root, optionVar, *SELECTION)
 options.config(font=BOLD, background=YELLOW_COLOR, width=12)
 options.grid(row=row1,column=0)
 
-update_label = Label(root, foreground=BLACK_COLOR, background=YELLOW_COLOR, font=BOLD)
+update_label = create_label(root, None)
 update_label.grid(row=1,column=1)  
 
 def main():
@@ -30,24 +28,20 @@ def main():
     root.title('Download from youtube')
     root.configure(background=YELLOW_COLOR)
 
-    highlight = Label(root, text="Download from Youtube!", foreground=BLACK_COLOR, background=YELLOW_COLOR, font=BOLD)
-    highlight.grid(row=row0,column=1,  padx=10, pady=20)
+    highlight = create_label(root, "Download from Youtube!")
+    highlight.grid(row=row0, column=1, padx=PADDING_X, pady=PADDING_Y)
+    label = create_label(root, text="Enter youtube link :")
+    label.grid(row=row2,column=0,  padx=PADDING_X, pady=PADDING_Y)
 
-    label = Label(root, text="Enter youtube link :", foreground=BLACK_COLOR, background=YELLOW_COLOR, font=BOLD)
-    label.grid(row=row2,column=0,  padx=10, pady=20)
-
-    button = Button(root, text="Download", background=YELLOW_COLOR, foreground=BLACK_COLOR, font=BOLD, command=lambda:thread(entry.get(), 'C:/Users/{}/Downloads'.format(getpass.getuser())))
-    button.grid(row=row2, column=3, padx=10, pady=20)
+    button = Button(root, text="Download", background=YELLOW_COLOR, foreground=BLACK_COLOR, font=BOLD, command=lambda:thread(entry.get(), fr'C:/Users/{getpass.getuser()}/Downloads'))
+    button.grid(row=row2, column=3, padx=PADDING_X, pady=PADDING_Y)
     
     root.mainloop()
 
 def thread(videourl, path):
-
-    print(optionVar.get())
-
     update_label.configure(text='downloading..')
-    t1 = threading.Thread(target=downloadYouTube, args=(videourl, path))
-    t1.start()
+    downloading_thread = threading.Thread(target=downloadYouTube, args=(videourl, path))
+    downloading_thread.start()
 
 def downloadYouTube(videourl, path):
     try:
