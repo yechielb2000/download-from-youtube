@@ -39,7 +39,7 @@ def create_label(root: Tk, text: str) -> Label:
 
 
 def thread(root: Tk, url: str):
-    downloading_message = create_label(root, "downloading..")
+    downloading_message = create_label(root, "Downloading..")
     downloading_message.grid(row=1, column=1)
     downloading_thread = threading.Thread(target=download_youtube_video, args=(url, downloading_message))
     downloading_thread.start()
@@ -48,7 +48,6 @@ def thread(root: Tk, url: str):
 def download_youtube_video(url: str, downloading_message: Label, *args) -> None:
     try:
         video = YouTube(url).streams.first()
-        print(video)
         video.download()
         downloading_message.configure(text=Messages.DOWNLOAD_COMPLETE)
     except Exception as ex:
