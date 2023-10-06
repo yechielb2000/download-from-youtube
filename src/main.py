@@ -46,9 +46,7 @@ def thread(root: Tk, url: str):
 
 def download_youtube_video(url: str, downloading_message: Label, *args) -> None:
 	try:
-		video = YouTube(url).streams.first()
-		print(video)
-		video.download()
+		YouTube(url).streams.first().download()
 		downloading_message.configure(text='Download completed!')
 	except Exception as e:
 		downloading_message.configure(text='Download failed!')
